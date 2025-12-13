@@ -167,8 +167,8 @@ importers:
         specifier: 9.3.0
         version: 9.3.0
       glob:
-        specifier: 10.4.2
-        version: 10.4.2
+        specifier: 10.5.0
+        version: 10.5.0
       node-fetch:
         specifier: 3.3.2
         version: 3.3.2
@@ -4608,9 +4608,8 @@ packages:
     dependencies:
       is-glob: 4.0.3
 
-  /glob@10.4.2:
-    resolution: {integrity: sha512-GwMlUF6PkPo3Gk21UxkCohOv0PLcIXVtKyLlpEI28R/cO/4eNOdmLk3CMW1wROV/WR/EsZOWAfBbBOqYvs88/w==}
-    engines: {node: '>=16 || 14 >=14.18'}
+  /glob@10.5.0:
+    resolution: {integrity: sha512-DfXN8DfhJ7NH3Oe7cFmu3NCu1wKbkReJ8TorzSAFbSKrlNaQSKfIzqYqVY8zlbs2NLBbWpRiU52GX2PbaBVNkg==}
     hasBin: true
     dependencies:
       foreground-child: 3.3.1
@@ -6093,7 +6092,7 @@ packages:
     engines: {node: '>=14.18'}
     hasBin: true
     dependencies:
-      glob: 10.4.2
+      glob: 10.5.0
     dev: true
 
   /rollup@4.53.3:
