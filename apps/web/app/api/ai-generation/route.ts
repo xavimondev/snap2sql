@@ -4,7 +4,7 @@ import { openai } from '@ai-sdk/openai'
 import { uptash } from '@/utils/rate-limit'
 import { headers } from 'next/headers'
 
-import { DB_SCHEMA, prompts } from '@/utils/ai'
+import { createImagePart, DB_SCHEMA, getAIErrorResponse, prompts } from '@/utils/ai'
 
 const ratelimit =
   process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN ? uptash : false
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
 
   try {
     const result = await generateObject({
-      model: openai('gpt-4.1-mini'),
+      model: openai.chat('gpt-4.1-mini'),
       schema: DB_SCHEMA,
       messages: [
         {
@@ -51,10 +51,7 @@ export async function POST(req: Request) {
               type: 'text',
               text: prompts[databaseFormat] as string
             },
-            {
-              type: 'image',
-              image: base64
-            }
+            createImagePart(base64)
           ]
         }
       ],
@@ -65,13 +62,7 @@ export async function POST(req: Request) {
       data: result.object.results
     })
   } catch (error) {
-    let errorMessage = 'An error has ocurred with API Completions. Please try again.'
-    // @ts-ignore
-    if (error.status === 401) {
-      errorMessage = 'The provided API Key is invalid. Please enter a valid API Key.'
-    }
-    // @ts-ignore
-    const { name, status, headers } = error
-    return NextResponse.json({ name, status, headers, message: errorMessage }, { status })
+    const { name, status, headers, message } = getAIErrorResponse(error)
+    return NextResponse.json({ name, status, headers, message }, { status })
   }
 }
